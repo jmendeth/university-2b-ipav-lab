@@ -1,0 +1,91 @@
+\input{preamble.tex}
+\AfterPreamble{\hypersetup{
+  pdftitle={Session 2, homework},
+}}
+
+\begin{document}
+\startpage
+
+\paragraph{Question 1.}
+
+The quantizer is implemented in Matlab/Octave as:
+
+\begin{minted}{matlab}
+function y = quantize(x)
+  y = round(x * 7) / 7;
+  y = max(min(y, 1), -1);
+end
+\end{minted}
+
+The quantized sequence is:
+
+\begin{minted}{matlab}
+>> x = [0.7, -0.1, 0.4, 0.6, -1.2];
+>> xq = quantize(x)
+xq =
+   0.71429  -0.14286   0.42857   0.57143  -1.00000
+\end{minted}
+
+\paragraph{Question 2.}
+
+The error sequence is:
+
+\begin{minted}{matlab}
+>> e = x - xq
+e =
+  -0.014286   0.042857  -0.028571   0.028571  -0.200000
+\end{minted}
+
+\paragraph{Question 3.}
+
+The SNR in \si{\decibel} is:
+
+\begin{minted}{matlab}
+>> SNR = 10 * log10(sum(x.^2) / sum(e.^2))
+SNR =  17.507
+\end{minted}
+
+\paragraph{Question 4.}
+
+This expression doesn't apply because it does \emph{not} consider
+saturation error, only granular error. $x[n]$ does have a sample outside
+$[-1, 1]$ and therefore presents saturation error when quantized.
+
+\paragraph{Question 5.}
+
+The length of the sequence is the sum of all bins in the histogram:
+$10 + 0 + 5 + 20 + 40 + 50 + 100 + 50 + 30 + 20 + 0 + 5 + 5 = 335$
+samples.
+
+By adding the samples in the corresponding bins, we can see that 270
+of those samples fall in the range $[\num{-0.2}, \num{0.2}]$. Thus, their
+relative frequency (probability) is $\frac{270}{370} \simeq
+\SI{80.60}{\percent}$.
+
+\paragraph{Question 6.}
+
+\emph{Green} light is the most visible under photopic circumstances,
+as its average wavelength (\SI{534}{\nano\meter}) as well as its range,
+have the greatest luminous efficiency compared to the other kinds of
+light mentioned.
+
+\paragraph{Question 7.}
+
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+Color & R & G & B \\
+\midrule
+white   & X & X & X \\
+red     & X &   &   \\
+green   &   & X &   \\
+blue    &   &   & X \\
+yellow  & X & X &   \\
+magenta & X &   & X \\
+cyan    &   & X & X \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\finishpage
+\end{document}
